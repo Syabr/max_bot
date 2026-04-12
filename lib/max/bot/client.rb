@@ -6,10 +6,10 @@ module Max
     class Client
       attr_reader :api, :options
 
-      def self.run(token, **, &block)
-        raise ArgumentError, 'block required' unless block
+      def self.run(token, **, &)
+        raise ArgumentError, 'block required' unless block_given?
 
-        new(token, **).run(&block)
+        new(token, **).run(&)
       end
 
       def initialize(token, **options)
