@@ -25,6 +25,7 @@ Changes in **0.3.0** compared to **0.2.0** are described below in **English** an
 - `Api.set_webhook` validates that `url` is a valid HTTP(S) URL.
 - `MultipartUpload` error responses now wrap the body in `{ message: ... }` so `ApiError#to_s` displays the message.
 - Added `Http#put` method for `PUT` requests.
+- `Attachments.inline_keyboard` fixed: `buttons` now wraps rows in an array (was `buttons: rows`, now `buttons: [rows]`).
 - 21 new tests (67 total, 153 assertions).
 
 ---
@@ -50,6 +51,7 @@ Changes in **0.3.0** compared to **0.2.0** are described below in **English** an
 - `Api.set_webhook` проверяет, что `url` — валидный HTTP(S) URL.
 - Ошибки `MultipartUpload` теперь оборачивают тело в `{ message: ... }`, чтобы `ApiError#to_s` отображал сообщение.
 - Добавлен метод `Http#put` для `PUT`-запросов.
+- Исправлен `Attachments.inline_keyboard`: `buttons` теперь оборачивает строки в массив (было `buttons: rows`, стало `buttons: [rows]`).
 - 21 новый тест (67 всего, 153 assertions).
 
 ---
