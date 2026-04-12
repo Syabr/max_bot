@@ -35,6 +35,13 @@ module Max
         assert_equal 'share', att[:type]
         assert_equal 'https://example.com', att[:payload][:url]
       end
+
+      def test_clipboard_button
+        btn = Attachments.clipboard_button('Copy', 'secret_code')
+        assert_equal 'clipboard', btn[:type]
+        assert_equal 'Copy', btn[:text]
+        assert_equal 'secret_code', btn[:payload]
+      end
     end
   end
 end

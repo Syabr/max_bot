@@ -116,6 +116,8 @@ api.send_message('_cursive_', chat_id: 123, format: 'markdown')
 
 Типизированные хелперы под API: **image**, **video**, **audio**, **file**, **sticker**, **contact**, **inline_keyboard**, **location**, **share**. Примеры клавиатуры — в [документации MAX](https://dev.max.ru/docs-api).
 
+Кнопки: `callback_button`, `link_button`, `request_contact_button`, `request_geo_location_button`, `chat_button`, `message_button`, `clipboard_button`.
+
 ```ruby
 api.send_message(
   'Выберите',
@@ -194,11 +196,50 @@ api.send_media(type: :image, path: '/path/to/photo.jpg', text: 'Фото', chat_
    api.delete_webhook('https://your.domain/max/webhook')
    ```
 
+## Управление сообщениями и чатами
+
+```ruby
+# Информация о боте (проверка токена)
+bot = api.me
+puts bot[:name]  # => "My Bot"
+
+# Информация о чате
+chat = api.chat(chat_id)
+puts chat[:name]
+
+# Получить конкретное сообщение
+msg = api.get_message(message_id)
+
+# Редактировать сообщение
+api.edit_message(message_id, 'Новый текст', format: 'markdown')
+
+# Удалить сообщение
+api.delete_message(message_id)
+
+# Ответ на callback (inline-кнопки)
+api.answer_callback(callback_query_id, text: 'Выбрано!', show_alert: true)
+
+# Кнопка clipboard — копирует текст в буфер обмена
+api.send_message(
+  'Нажмите, чтобы скопировать',
+  chat_id: chat_id,
+  attachment: Max::Bot::Attachments.inline_keyboard([
+    [Max::Bot::Attachments.clipboard_button('Копировать', 'секретный_код')]
+  ])
+)
+```
+
 ## Другие методы API
 
 | Метод | HTTP |
 |--------|------|
 | `api.chats` | [GET /chats](https://dev.max.ru/docs-api/methods/GET/chats) |
+| `api.chat(chat_id)` | [GET /chats/{chatId}](https://dev.max.ru/docs-api/methods/GET/chats/%7BchatId%7D) |
+| `api.me` | [GET /bots](https://dev.max.ru/docs-api/methods/GET/bots) |
+| `api.get_message(message_id)` | [GET /messages/{messageId}](https://dev.max.ru/docs-api/methods/GET/messages/%7BmessageId%7D) |
+| `api.edit_message(message_id, ...)` | [PUT /messages/{messageId}](https://dev.max.ru/docs-api/methods/PUT/messages/%7BmessageId%7D) |
+| `api.delete_message(message_id)` | [DELETE /messages/{messageId}](https://dev.max.ru/docs-api/methods/DELETE/messages/%7BmessageId%7D) |
+| `api.answer_callback(...)` | [POST /messages/callback](https://dev.max.ru/docs-api/methods/POST/messages/callback) |
 | `api.subscriptions` | [GET /subscriptions](https://dev.max.ru/docs-api/methods/GET/subscriptions) |
 
 ## Ошибки

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'uri'
+
 module Max
   module Bot
     # HTTP facade for the MAX Bot API (+platform-api.max.ru+).
@@ -99,6 +101,7 @@ module Max
 
       # POST /subscriptions — https://dev.max.ru/docs-api/methods/POST/subscriptions
       def set_webhook(url:, update_types: nil, secret: nil)
+        assert_valid_url!(url, 'set_webhook url')
         body = RequestBuilders.subscription_body(url: url, update_types: update_types, secret: secret)
         http.post('/subscriptions', body: body)
       end
@@ -116,6 +119,70 @@ module Max
         http.get('/chats', query: query)
       end
 
+      # GET /chats/{chatId} — https://dev.max.ru/docs-api/methods/GET/chats/{chatId}
+      def chat(chat_id)
+        raise ArgumentError, 'chat_id must be a non-empty value' if chat_id.nil? || chat_id.to_s.strip.empty?
+
+        http.get("/chats/#{chat_id}")
+      end
+
+      # --- Bot info -------------------------------------------------
+
+      # GET /bots — https://dev.max.ru/docs-api/methods/GET/bots
+      def me
+        http.get('/bots')
+      end
+
+      # --- Message management ---------------------------------------
+
+      # GET /messages/{messageId} — https://dev.max.ru/docs-api/methods/GET/messages/{messageId}
+      def get_message(message_id)
+        raise ArgumentError, 'message_id must be a non-empty value' if message_id.nil? || message_id.to_s.strip.empty?
+
+        http.get("/messages/#{message_id}")
+      end
+
+      # PUT /messages/{messageId} — https://dev.max.ru/docs-api/methods/PUT/messages/{messageId}
+      def edit_message(message_id, text = nil, attachment: nil, attachments: nil, format: nil,
+                       link: nil)
+        raise ArgumentError, 'message_id must be a non-empty value' if message_id.nil? || message_id.to_s.strip.empty?
+
+        combined = RequestBuilders.combine_attachments(attachment, attachments)
+
+        http.put(
+          "/messages/#{message_id}",
+          body: RequestBuilders.message_body(
+            text: text,
+            attachments: combined,
+            format: format,
+            notify: nil,
+            link: link
+          )
+        )
+      end
+
+      # DELETE /messages/{messageId} — https://dev.max.ru/docs-api/methods/DELETE/messages/{messageId}
+      def delete_message(message_id)
+        raise ArgumentError, 'message_id must be a non-empty value' if message_id.nil? || message_id.to_s.strip.empty?
+
+        http.delete("/messages/#{message_id}")
+      end
+
+      # POST /messages/callback — https://dev.max.ru/docs-api/methods/POST/messages/callback
+      def answer_callback(callback_query_id, text: nil, show_alert: nil, url: nil)
+        raise ArgumentError, 'callback_query_id must be a non-empty value' if callback_query_id.nil? || callback_query_id.to_s.strip.empty?
+
+        http.post(
+          '/messages/callback',
+          body: RequestBuilders.callback_body(
+            callback_query_id: callback_query_id,
+            text: text,
+            show_alert: show_alert,
+            url: url
+          )
+        )
+      end
+
       private
 
       def assert_recipient!(chat_id, user_id)
@@ -128,6 +195,13 @@ module Max
         return unless text.nil? && combined_attachments.nil? && link.nil?
 
         raise ArgumentError, 'send_message requires at least one of: text, attachments, attachment, link'
+      end
+
+      def assert_valid_url!(value, label)
+        uri = URI.parse(value.to_s)
+        unless uri.is_a?(URI::HTTP) && uri.host && !uri.host.empty?
+          raise ArgumentError, "#{label} must be a valid HTTP(S) URL"
+        end
       end
 
       def normalize_upload_type!(type)

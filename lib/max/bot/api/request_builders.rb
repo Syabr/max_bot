@@ -59,6 +59,14 @@ module Max
             query
           end
 
+          def callback_body(callback_query_id:, text:, show_alert:, url:)
+            body = { callback_query_id: callback_query_id }
+            body[:text] = text unless text.nil?
+            body[:show_alert] = show_alert unless show_alert.nil?
+            body[:url] = url unless url.nil?
+            body
+          end
+
           def media_attachment_from_upload(type, data)
             t = type.to_s
             payload = {}

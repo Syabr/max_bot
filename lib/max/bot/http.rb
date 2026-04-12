@@ -24,6 +24,10 @@ module Max
         perform(:delete, path, query: query)
       end
 
+      def put(path, query: nil, body: nil)
+        perform(:put, path, query: query, body: body)
+      end
+
       private
 
       def perform(method, path, query: nil, body: nil)

@@ -98,6 +98,10 @@ module Max
         prune(type: 'message', text: text, payload: payload)
       end
 
+      def clipboard_button(text, payload)
+        { type: 'clipboard', text: text, payload: payload }
+      end
+
       # Escape hatch for new API button/attachment shapes.
       def raw(type:, payload: nil, **top_level)
         h = { type: type }

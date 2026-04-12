@@ -77,6 +77,26 @@ module Max
         assert_equal true, result[:success]
         stubs.verify_stubbed_calls
       end
+
+      def test_put_sends_json_body_and_auth
+        stubs = Faraday::Adapter::Test::Stubs.new do |stub|
+          stub.put('/messages/42', '{"text":"updated"}') do |env|
+            assert_equal 'secret-token', env.request_headers['Authorization']
+            assert_match %r{application/json}, env.request_headers['Content-Type']
+            [200, { 'Content-Type' => 'application/json' }, '{"message_id":42}']
+          end
+        end
+
+        conn = Faraday.new do |f|
+          f.adapter :test, stubs
+        end
+
+        http = Http.new('secret-token', 'https://platform-api.max.ru', connection: conn)
+        result = http.put('/messages/42', body: { text: 'updated' })
+
+        assert_equal 42, result[:message_id]
+        stubs.verify_stubbed_calls
+      end
     end
   end
 end
