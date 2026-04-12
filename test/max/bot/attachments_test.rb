@@ -20,7 +20,7 @@ module Max
         ]
         att = Attachments.inline_keyboard(rows)
         assert_equal 'inline_keyboard', att[:type]
-        assert_equal rows, att[:payload][:buttons]
+        assert_equal [rows], att[:payload][:buttons]
       end
 
       def test_location_top_level_coordinates

@@ -51,7 +51,7 @@ module Max
 
       # +rows+ is an Array of rows; each row is an Array of button Hashes (see +callback_button+, +link_button+, …).
       def inline_keyboard(rows)
-        { type: 'inline_keyboard', payload: { buttons: rows } }
+        { type: 'inline_keyboard', payload: { buttons: [rows] } }
       end
       alias keyboard inline_keyboard
 
