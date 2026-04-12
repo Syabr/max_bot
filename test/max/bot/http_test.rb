@@ -74,7 +74,7 @@ module Max
 
         http = Http.new('tok', 'https://platform-api.max.ru', connection: conn)
         result = http.delete('/subscriptions', query: { url: 'https://h' })
-        assert_equal true, result[:success]
+        assert result[:success]
         stubs.verify_stubbed_calls
       end
 

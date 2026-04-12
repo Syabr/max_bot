@@ -12,7 +12,7 @@ module Max
       module_function
 
       def prune(hash)
-        hash.reject { |_, v| v.nil? }
+        hash.compact
       end
 
       # --- Media (usually +token+ from +POST /uploads+ flow) ---

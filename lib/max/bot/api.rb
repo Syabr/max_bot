@@ -58,9 +58,7 @@ module Max
       def upload_file(type:, path:, filename: nil)
         slot = create_upload(type: type)
         upload_url = slot[:url]
-        if upload_url.nil? || upload_url.to_s.empty?
-          raise ApiError.new('Upload response missing url', body: slot)
-        end
+        raise ApiError.new('Upload response missing url', body: slot) if upload_url.nil? || upload_url.to_s.empty?
 
         raw = MultipartUpload.post_file(
           upload_url: upload_url,
@@ -199,16 +197,14 @@ module Max
 
       def assert_valid_url!(value, label)
         uri = URI.parse(value.to_s)
-        unless uri.is_a?(URI::HTTP) && uri.host && !uri.host.empty?
-          raise ArgumentError, "#{label} must be a valid HTTP(S) URL"
-        end
+        return if uri.is_a?(URI::HTTP) && uri.host && !uri.host.empty?
+
+        raise ArgumentError, "#{label} must be a valid HTTP(S) URL"
       end
 
       def normalize_upload_type!(type)
         t = type.to_s
-        unless UPLOAD_TYPES.include?(t)
-          raise ArgumentError, "upload type must be one of #{UPLOAD_TYPES.join(', ')}"
-        end
+        raise ArgumentError, "upload type must be one of #{UPLOAD_TYPES.join(', ')}" unless UPLOAD_TYPES.include?(t)
 
         t
       end

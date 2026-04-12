@@ -10,7 +10,7 @@ require 'bundler/setup'
 require 'logger'
 require 'max_bot'
 
-token = ENV['MAX_BOT_TOKEN']
+token = ENV.fetch('MAX_BOT_TOKEN', nil)
 abort 'Set MAX_BOT_TOKEN from the MAX platform (Chat bots → Integration → token).' if token.to_s.strip.empty?
 
 logger = Logger.new($stdout)

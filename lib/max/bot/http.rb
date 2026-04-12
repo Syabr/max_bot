@@ -43,7 +43,7 @@ module Max
       end
 
       def connection
-        @injected_connection || @default_connection ||= build_connection
+        @injected_connection || @connection ||= build_connection
       end
 
       def build_connection

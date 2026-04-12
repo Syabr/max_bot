@@ -40,7 +40,7 @@ module Max
             authorization: 'tok'
           )
         end
-        assert err.is_a?(StandardError)
+        assert_kind_of StandardError, err
       end
     end
   end

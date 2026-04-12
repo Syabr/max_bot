@@ -9,7 +9,7 @@ module Max
         a = { type: 'share', payload: { url: 'https://a' } }
         b = { type: 'image', payload: { token: 't' } }
         out = Api::RequestBuilders.combine_attachments(a, [b])
-        assert_equal %w[share image], out.map { |h| h[:type] }
+        assert_equal(%w[share image], out.map { |h| h[:type] })
       end
 
       def test_combine_attachments_rejects_invalid_attachment
@@ -61,7 +61,7 @@ module Max
         )
         assert_equal 'cb_123', b[:callback_query_id]
         assert_equal 'Done', b[:text]
-        assert_equal true, b[:show_alert]
+        assert b[:show_alert]
         refute b.key?(:url)
       end
 

@@ -53,7 +53,7 @@ module Max
 
       def deliver_updates(result, &block)
         updates = result.is_a?(Hash) ? (result[:updates] || []) : []
-        updates.each { |u| block.call(u) }
+        updates.each(&block)
       end
 
       def handle_poll_error(error, backoff)

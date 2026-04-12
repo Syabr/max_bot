@@ -158,7 +158,7 @@ module Max
         assert_equal '/messages/callback', http.last_path
         assert_equal 'cb_123', http.last_body[:callback_query_id]
         assert_equal 'Done!', http.last_body[:text]
-        assert_equal true, http.last_body[:show_alert]
+        assert http.last_body[:show_alert]
       end
     end
   end
