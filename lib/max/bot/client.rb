@@ -6,10 +6,10 @@ module Max
     class Client
       attr_reader :api, :options
 
-      def self.run(token, **options, &block)
+      def self.run(token, **, &block)
         raise ArgumentError, 'block required' unless block
 
-        new(token, **options).run(&block)
+        new(token, **).run(&block)
       end
 
       def initialize(token, **options)
@@ -51,9 +51,9 @@ module Max
         result[:marker]
       end
 
-      def deliver_updates(result, &block)
+      def deliver_updates(result, &)
         updates = result.is_a?(Hash) ? (result[:updates] || []) : []
-        updates.each(&block)
+        updates.each(&)
       end
 
       def handle_poll_error(error, backoff)

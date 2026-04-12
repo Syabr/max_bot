@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   end
   s.homepage    = 'https://github.com/Syabr/max_bot'
   s.license     = 'MIT'
-  s.required_ruby_version = '>= 2.5.0'
+  s.required_ruby_version = '>= 3.2.0'
 
   s.require_paths = ['lib']
 
