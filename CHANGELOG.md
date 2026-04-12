@@ -1,5 +1,61 @@
 # Changelog
 
+## 0.3.0
+
+Changes in **0.3.0** compared to **0.2.0** are described below in **English** and **Russian**.
+
+### English
+
+#### New API methods
+
+- `api.me` — **GET /bots**: get bot info (useful for token validation).
+- `api.chat(chat_id)` — **GET /chats/{chatId}**: get group chat information.
+- `api.get_message(message_id)` — **GET /messages/{messageId}**: get a specific message.
+- `api.edit_message(message_id, text, ...)` — **PUT /messages/{messageId}**: edit a message (supports text, attachments, format, link).
+- `api.delete_message(message_id)` — **DELETE /messages/{messageId}**: delete a message.
+- `api.answer_callback(callback_query_id, ...)` — **POST /messages/callback**: reply to a callback query from inline keyboard buttons (supports `text`, `show_alert`, `url`).
+
+#### Attachments
+
+- `Attachments.clipboard_button(text, payload)` — new button type: **clipboard** (copies payload to clipboard on tap).
+
+#### Improvements & fixes
+
+- `Webhook.secret_valid?` now uses `OpenSSL.fixed_length_secure_compare` for proper constant-time comparison (was a manual XOR loop).
+- `Api.set_webhook` validates that `url` is a valid HTTP(S) URL.
+- `MultipartUpload` error responses now wrap the body in `{ message: ... }` so `ApiError#to_s` displays the message.
+- Added `Http#put` method for `PUT` requests.
+- `Attachments.inline_keyboard` fixed: `buttons` now wraps rows in an array (was `buttons: rows`, now `buttons: [rows]`).
+- 21 new tests (67 total, 153 assertions).
+
+---
+
+### Русский
+
+#### Новые методы API
+
+- `api.me` — **GET /bots**: информация о боте (удобно для проверки токена).
+- `api.chat(chat_id)` — **GET /chats/{chatId}**: информация о групповом чате.
+- `api.get_message(message_id)` — **GET /messages/{messageId}**: получить конкретное сообщение.
+- `api.edit_message(message_id, text, ...)` — **PUT /messages/{messageId}**: редактировать сообщение (поддерживает текст, вложения, формат, ссылку).
+- `api.delete_message(message_id)` — **DELETE /messages/{messageId}**: удалить сообщение.
+- `api.answer_callback(callback_query_id, ...)` — **POST /messages/callback**: ответ на callback-запрос от inline-кнопки (поддерживает `text`, `show_alert`, `url`).
+
+#### Вложения
+
+- `Attachments.clipboard_button(text, payload)` — новый тип кнопки: **clipboard** (копирует payload в буфер обмена по нажатию).
+
+#### Улучшения и исправления
+
+- `Webhook.secret_valid?` теперь использует `OpenSSL.fixed_length_secure_compare` для корректного сравнения за постоянное время (раньше был ручной XOR-цикл).
+- `Api.set_webhook` проверяет, что `url` — валидный HTTP(S) URL.
+- Ошибки `MultipartUpload` теперь оборачивают тело в `{ message: ... }`, чтобы `ApiError#to_s` отображал сообщение.
+- Добавлен метод `Http#put` для `PUT`-запросов.
+- Исправлен `Attachments.inline_keyboard`: `buttons` теперь оборачивает строки в массив (было `buttons: rows`, стало `buttons: [rows]`).
+- 21 новый тест (67 всего, 153 assertions).
+
+---
+
 ## 0.2.0
 
 Changes in **0.2.0** compared to **0.1.1** are described below in **English** and **Russian**.

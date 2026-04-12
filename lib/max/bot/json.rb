@@ -26,9 +26,9 @@ module Max
 
       def deep_symbolize(obj)
         case obj
-        when Hash
+        in Hash
           obj.each_with_object({}) { |(k, v), h| h[k.to_sym] = deep_symbolize(v) }
-        when Array
+        in Array
           obj.map { |e| deep_symbolize(e) }
         else
           obj

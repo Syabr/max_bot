@@ -20,7 +20,7 @@ module Max
         ]
         att = Attachments.inline_keyboard(rows)
         assert_equal 'inline_keyboard', att[:type]
-        assert_equal rows, att[:payload][:buttons]
+        assert_equal [rows], att[:payload][:buttons]
       end
 
       def test_location_top_level_coordinates
@@ -34,6 +34,13 @@ module Max
         att = Attachments.share(url: 'https://example.com')
         assert_equal 'share', att[:type]
         assert_equal 'https://example.com', att[:payload][:url]
+      end
+
+      def test_clipboard_button
+        btn = Attachments.clipboard_button('Copy', 'secret_code')
+        assert_equal 'clipboard', btn[:type]
+        assert_equal 'Copy', btn[:text]
+        assert_equal 'secret_code', btn[:payload]
       end
     end
   end

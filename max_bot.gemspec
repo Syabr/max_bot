@@ -14,12 +14,17 @@ Gem::Specification.new do |s|
   end
   s.homepage    = 'https://github.com/Syabr/max_bot'
   s.license     = 'MIT'
-  s.required_ruby_version = '>= 2.5.0'
+  s.required_ruby_version = '>= 3.2.0'
 
   s.require_paths = ['lib']
 
   s.add_dependency 'faraday', '>= 1.0', '< 3.0'
 
-  s.add_development_dependency 'minitest', '>= 5.0', '< 7'
+  s.add_development_dependency 'minitest', '>= 5.0', '< 6'
+  s.add_development_dependency 'parallel', '< 2'
   s.add_development_dependency 'rake', '>= 13.0', '< 15'
+  s.add_development_dependency 'rubocop', '>= 1.0', '< 2'
+  s.add_development_dependency 'rubocop-minitest', '~> 0.36'
+  s.add_development_dependency 'rubocop-performance', '~> 1.23'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end

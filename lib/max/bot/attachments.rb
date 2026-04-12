@@ -12,7 +12,7 @@ module Max
       module_function
 
       def prune(hash)
-        hash.reject { |_, v| v.nil? }
+        hash.compact
       end
 
       # --- Media (usually +token+ from +POST /uploads+ flow) ---
@@ -51,7 +51,7 @@ module Max
 
       # +rows+ is an Array of rows; each row is an Array of button Hashes (see +callback_button+, +link_button+, …).
       def inline_keyboard(rows)
-        { type: 'inline_keyboard', payload: { buttons: rows } }
+        { type: 'inline_keyboard', payload: { buttons: [rows] } }
       end
       alias keyboard inline_keyboard
 
@@ -96,6 +96,10 @@ module Max
 
       def message_button(text, payload: nil)
         prune(type: 'message', text: text, payload: payload)
+      end
+
+      def clipboard_button(text, payload)
+        { type: 'clipboard', text: text, payload: payload }
       end
 
       # Escape hatch for new API button/attachment shapes.

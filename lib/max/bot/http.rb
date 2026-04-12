@@ -24,6 +24,10 @@ module Max
         perform(:delete, path, query: query)
       end
 
+      def put(path, query: nil, body: nil)
+        perform(:put, path, query: query, body: body)
+      end
+
       private
 
       def perform(method, path, query: nil, body: nil)
@@ -39,7 +43,7 @@ module Max
       end
 
       def connection
-        @injected_connection || @default_connection ||= build_connection
+        @injected_connection || @connection ||= build_connection
       end
 
       def build_connection

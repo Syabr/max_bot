@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
 require 'net/http'
-require 'openssl'
 require 'securerandom'
 require 'uri'
 
 module Max
   module Bot
     # Multipart +data=@file+ upload to the URL returned by +POST /uploads+.
+    # Uses stdlib Net::HTTP to avoid Faraday multipart dependency (which requires
+    # the external faraday-multipart gem in Faraday 2.x).
     # @see https://dev.max.ru/docs-api/methods/POST/uploads
     module MultipartUpload
       module_function
@@ -43,7 +44,7 @@ module Max
           raise ApiError.new(
             "Upload failed HTTP #{response.code}",
             status: response.code.to_i,
-            body: response.body
+            body: { message: response.body }
           )
         end
 

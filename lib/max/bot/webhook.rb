@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'openssl'
+
 module Max
   module Bot
     # Helpers for HTTPS webhook endpoints (POST body = Update JSON).
@@ -17,9 +19,7 @@ module Max
         b = expected_secret.to_s
         return false unless a.bytesize == b.bytesize
 
-        l = 0
-        a.bytes.zip(b.bytes) { |x, y| l |= x ^ y }
-        l.zero?
+        OpenSSL.fixed_length_secure_compare(a, b)
       end
 
       def extract_secret_header(env)

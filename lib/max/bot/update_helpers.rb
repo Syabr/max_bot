@@ -20,11 +20,10 @@ module Max
       def message_text(message)
         return unless message.is_a?(Hash)
 
-        body = message[:body]
-        case body
-        when Hash
+        case message[:body]
+        in Hash => body
           body[:text] || body[:markdown]
-        when String
+        in String => body
           body
         end
       end
