@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.files = Dir.chdir(__dir__) do
     Dir['lib/**/*.rb'] + Dir['test/**/*.rb'] + Dir['examples/*.rb'] + %w[README.md CHANGELOG.md LICENSE.txt Rakefile]
   end
-  s.homepage    = 'https://dev.max.ru/docs-api'
+  s.homepage    = 'https://github.com/Syabr/max_bot'
   s.license     = 'MIT'
   s.required_ruby_version = '>= 2.5.0'
 
