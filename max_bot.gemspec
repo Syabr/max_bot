@@ -21,6 +21,7 @@ Gem::Specification.new do |s|
   s.add_dependency 'faraday', '>= 1.0', '< 3.0'
 
   s.add_development_dependency 'minitest', '>= 5.0', '< 6'
+  s.add_development_dependency 'parallel', '< 2'
   s.add_development_dependency 'rake', '>= 13.0', '< 15'
   s.add_development_dependency 'rubocop', '>= 1.0', '< 2'
   s.add_development_dependency 'rubocop-minitest', '~> 0.36'

@@ -21,7 +21,7 @@ GEM
     minitest (5.27.0)
     net-http (0.9.1)
       uri (>= 0.11.1)
-    parallel (2.0.1)
+    parallel (1.28.0)
     parser (3.3.11.1)
       ast (~> 2.4.1)
       racc
@@ -65,6 +65,7 @@ PLATFORMS
 DEPENDENCIES
   max_bot!
   minitest (>= 5.0, < 6)
+  parallel (< 2)
   rake (>= 13.0, < 15)
   rubocop (>= 1.0, < 2)
   rubocop-minitest (~> 0.36)
