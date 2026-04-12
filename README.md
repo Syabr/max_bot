@@ -16,7 +16,7 @@ Ruby-клиент для Bot API мессенджера **[MAX](https://dev.max.
 В `Gemfile`:
 
 ```ruby
-gem 'max_bot', '~> 0.2'
+gem 'max_bot', '~> 0.3'
 ```
 
 Локально из этого репозитория:
