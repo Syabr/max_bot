@@ -123,11 +123,8 @@ api.send_message(
   'Выберите',
   chat_id: chat_id,
   attachment: Max::Bot::Attachments.inline_keyboard([
-    [
       Max::Bot::Attachments.callback_button('A', 'choice_a'),
       Max::Bot::Attachments.callback_button('B', 'choice_b')
-    ],
-    [Max::Bot::Attachments.link_button('Документация', 'https://dev.max.ru/docs-api')]
   ])
 )
 
