@@ -26,13 +26,13 @@ module Max
       end
 
       def test_message_destination_from_bot_started_update_chat_id
-        update = { update_type: 'bot_started', chat_id: 65823140, user_id: 223440644 }
-        assert_equal [:chat_id, 65823140], UpdateHelpers.message_destination(update)
+        update = { update_type: 'bot_started', chat_id: 65_823_140, user_id: 223_440_644 }
+        assert_equal [:chat_id, 65_823_140], UpdateHelpers.message_destination(update)
       end
 
       def test_message_destination_from_bot_started_update_user_id
-        update = { update_type: 'bot_started', user_id: 223440644 }
-        assert_equal [:user_id, 223440644], UpdateHelpers.message_destination(update)
+        update = { update_type: 'bot_started', user_id: 223_440_644 }
+        assert_equal [:user_id, 223_440_644], UpdateHelpers.message_destination(update)
       end
     end
   end
