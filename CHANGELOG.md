@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.3.1
+
+Changes in **0.3.1** compared to **0.3.0** are described below in **English** and **Russian**.
+
+### English
+
+#### Improvements & fixes
+
+- `UpdateHelpers.message_destination` now supports `bot_started` updates where destination IDs (`chat_id` / `user_id`) are on the top-level update object.
+- Added a regression test for the common fallback flow: `message_destination(message || update)` when `message` is absent.
+- Updated docs (`README`, `wiki/Polling`, `wiki/API-Reference`) and `examples/polling_bot.rb` to show `bot_started` handling and destination fallback behavior.
+
+---
+
+### Русский
+
+#### Улучшения и исправления
+
+- `UpdateHelpers.message_destination` теперь поддерживает апдейты `bot_started`, где `chat_id` / `user_id` находятся на верхнем уровне объекта `update`.
+- Добавлен регрессионный тест для типового fallback-паттерна: `message_destination(message || update)`, когда `message` отсутствует.
+- Обновлены документация (`README`, `wiki/Polling`, `wiki/API-Reference`) и `examples/polling_bot.rb` с обработкой `bot_started` и fallback-логикой выбора destination.
+
+---
+
 ## 0.3.0
 
 Changes in **0.3.0** compared to **0.2.0** are described below in **English** and **Russian**.

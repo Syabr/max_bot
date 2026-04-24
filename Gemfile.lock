@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    max_bot (0.3.0)
+    max_bot (0.3.1)
       faraday (>= 1.0, < 3.0)
 
 GEM

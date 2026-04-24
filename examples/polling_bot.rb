@@ -27,20 +27,26 @@ Max::Bot::Client.new(
   token,
   timeout: 30,
   limit: 100,
-  types: %w[message_created],
+  types: %w[message_created bot_started],
   logger: logger,
   error_backoff: 5
 ).run do |update|
   logger.debug(update.inspect)
-  next unless Max::Bot::UpdateHelpers.message_created?(update)
 
   message = Max::Bot::UpdateHelpers.message_from(update)
   text = Max::Bot::UpdateHelpers.message_text(message)
-  dest = Max::Bot::UpdateHelpers.message_destination(message)
-  next if text.to_s.empty? || dest.nil?
+  # For bot_started there is no update[:message], so fallback to the whole update.
+  dest = Max::Bot::UpdateHelpers.message_destination(message || update)
+  next if dest.nil?
 
   kind, id = dest
-  api.send_message("Echo: #{text}", kind => id)
+  if Max::Bot::UpdateHelpers.message_created?(update)
+    next if text.to_s.empty?
+
+    api.send_message("Echo: #{text}", kind => id)
+  elsif update[:update_type].to_s == 'bot_started'
+    api.send_message('Welcome!', kind => id)
+  end
 rescue Max::Bot::ApiError => e
   logger.error("API error #{e.status}: #{e}")
 end
