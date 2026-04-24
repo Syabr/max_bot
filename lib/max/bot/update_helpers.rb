@@ -29,16 +29,19 @@ module Max
       end
 
       # Returns either [:chat_id, id] or [:user_id, id] for send_message kwargs.
-      def message_destination(message)
-        return unless message.is_a?(Hash)
+      # Supports:
+      # - message_created payloads: { recipient: { chat_id/user_id } }
+      # - bot_started payloads: { chat_id/user_id } (top-level update fields)
+      def message_destination(payload)
+        return unless payload.is_a?(Hash)
 
-        recipient = message[:recipient]
-        return unless recipient.is_a?(Hash)
+        recipient = payload[:recipient]
+        source = recipient.is_a?(Hash) ? recipient : payload
 
-        if recipient.key?(:chat_id) && !recipient[:chat_id].nil?
-          [:chat_id, recipient[:chat_id]]
-        elsif recipient.key?(:user_id) && !recipient[:user_id].nil?
-          [:user_id, recipient[:user_id]]
+        if source.key?(:chat_id) && !source[:chat_id].nil?
+          [:chat_id, source[:chat_id]]
+        elsif source.key?(:user_id) && !source[:user_id].nil?
+          [:user_id, source[:user_id]]
         end
       end
     end

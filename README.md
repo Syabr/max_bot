@@ -59,6 +59,10 @@ Long polling рассчитан на **разработку и тесты**. Д�
 
 Пример делает long polling `GET /updates` с `types: %w[message_created]`, разбирает апдейты через `Max::Bot::UpdateHelpers` и отвечает эхом (`POST /messages`).
 
+`Max::Bot::UpdateHelpers.message_destination` поддерживает оба формата:
+- `message_created`: `recipient.chat_id` / `recipient.user_id`
+- `bot_started`: `chat_id` / `user_id` на верхнем уровне `update`
+
 ### Минимальный цикл polling в своём коде
 
 ```ruby
@@ -85,6 +89,15 @@ Max::Bot::Client.new(
   kind, id = dest # :chat_id или :user_id
   api.send_message("Вы написали: #{text}", kind => id)
 end
+```
+
+Для `bot_started` можно передавать в `message_destination` сам `update`:
+
+```ruby
+next unless update[:update_type].to_s == 'bot_started'
+
+kind, id = Max::Bot::UpdateHelpers.message_destination(update)
+api.send_message('Добро пожаловать!', kind => id) if kind && id
 ```
 
 **Через метод класса:**
